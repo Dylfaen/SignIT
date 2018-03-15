@@ -1,6 +1,5 @@
 package com.example.cesar.signit.Fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +16,7 @@ import com.example.cesar.signit.R;
  * Created by cesar on 13/03/18.
  */
 
-public class TitleDialog extends DialogFragment {
+public class EditTitleDialog extends DialogFragment {
 
     private EditText titleEditText;
 
@@ -35,12 +34,12 @@ public class TitleDialog extends DialogFragment {
 
         builder.setPositiveButton(R.string.validate, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogPositiveClick(TitleDialog.this);
+                        mListener.onDialogEditPositiveClick(EditTitleDialog.this);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogNegativeClick(TitleDialog.this);
+                        mListener.onDialogEditNegativeClick(EditTitleDialog.this);
                     }
                 })
                 .setView(view);
@@ -49,13 +48,13 @@ public class TitleDialog extends DialogFragment {
         return builder.create();
     }
 
-    public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
+    public interface EditTitleListener {
+        public void onDialogEditPositiveClick(DialogFragment dialog);
+        public void onDialogEditNegativeClick(DialogFragment dialog);
     }
 
     // Use this instance of the interface to deliver action events
-    NoticeDialogListener mListener;
+    EditTitleListener mListener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeCardListener
     @Override
@@ -64,7 +63,7 @@ public class TitleDialog extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeCardListener so we can send events to the host
-            mListener = (NoticeDialogListener) context;
+            mListener = (EditTitleListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()

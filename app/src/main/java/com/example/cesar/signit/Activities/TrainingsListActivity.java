@@ -13,12 +13,13 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
 
+import com.example.cesar.signit.Fragments.EditTitleDialog;
 import com.example.cesar.signit.Fragments.TitleDialog;
 import com.example.cesar.signit.Model.Data;
 import com.example.cesar.signit.Model.TrainingProfile;
 import com.example.cesar.signit.R;
 
-public class TrainingsListActivity extends AppCompatActivity implements TitleDialog.NoticeDialogListener {
+public class TrainingsListActivity extends AppCompatActivity implements TitleDialog.NoticeDialogListener, EditTitleDialog.EditTitleListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -29,6 +30,7 @@ public class TrainingsListActivity extends AppCompatActivity implements TitleDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainings_list);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -47,7 +49,7 @@ public class TrainingsListActivity extends AppCompatActivity implements TitleDia
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new TrainingsListAdapter(Data.getInstance().getData());
+        mAdapter = new TrainingsListAdapter(Data.getInstance().getData(), this);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -74,7 +76,7 @@ public class TrainingsListActivity extends AppCompatActivity implements TitleDia
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void onDialogEditPositiveClick(DialogFragment dialog) {
         Log.d("FRAGMENT", "Validé");
         String title = ((TitleDialog) dialog).getTitleEditText().getText().toString();
         try {
@@ -87,8 +89,18 @@ public class TrainingsListActivity extends AppCompatActivity implements TitleDia
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void onDialogEditNegativeClick(DialogFragment dialog) {
         Log.d("FRAGMENT", "Annulé");
         Toast.makeText(TrainingsListActivity.this, "Annulé", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }

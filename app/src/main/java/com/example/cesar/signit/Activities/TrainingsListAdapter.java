@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class TrainingsListAdapter extends RecyclerView.Adapter<TrainingsListAdapter.ViewHolder> {
 
     private ArrayList<TrainingProfile> trainingProfiles;
+    private Activity activity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -47,8 +48,9 @@ public class TrainingsListAdapter extends RecyclerView.Adapter<TrainingsListAdap
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TrainingsListAdapter(ArrayList<TrainingProfile> myDataset) {
+    public TrainingsListAdapter(ArrayList<TrainingProfile> myDataset, Activity activity) {
         trainingProfiles = myDataset;
+        this.activity = activity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -78,7 +80,8 @@ public class TrainingsListAdapter extends RecyclerView.Adapter<TrainingsListAdap
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(TrainingsListAdapter.this.activity, TrainingActivity.class);
+                TrainingsListAdapter.this.activity.startActivity(intent);
             }
         });
 
