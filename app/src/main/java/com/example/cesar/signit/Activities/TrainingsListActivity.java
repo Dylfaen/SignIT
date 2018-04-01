@@ -96,11 +96,19 @@ public class TrainingsListActivity extends AppCompatActivity implements TitleDia
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-
+        Log.d("FRAGMENT", "Validé");
+        String title = ((TitleDialog) dialog).getTitleEditText().getText().toString();
+        try {
+            Data.getInstance().addTrainingProfile(new TrainingProfile(title));
+        } catch(Exception e) {
+            Toast.makeText(TrainingsListActivity.this, "Ce nom est déjà pris", Toast.LENGTH_SHORT).show();
+        }
+        Log.d("DATA", Data.getInstance().getData().toString());
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-
+        Log.d("FRAGMENT", "Annulé");
+        Toast.makeText(TrainingsListActivity.this, "Annulé", Toast.LENGTH_SHORT).show();
     }
 }

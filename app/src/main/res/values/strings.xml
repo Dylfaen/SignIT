@@ -8,4 +8,5 @@
     <string name="profile_title_fragment_message">Nom svp</string>
     <string name="validate">Valider</string>
     <string name="cancel">Annuler</string>
+    <string name="next_signature_button">Suivant</string>
 </resources>

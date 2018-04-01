@@ -1,8 +1,15 @@
 package com.example.cesar.signit.Model;
 
 import android.content.res.Resources;
+import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
 import java.io.Serializable;
+import com.example.cesar.signit.Helpers.Writer;
 import java.util.ArrayList;
 
 /**
@@ -18,15 +25,30 @@ public class Data implements Serializable {
         return this.data;
     }
 
+    public static void saveData() throws JSONException, FileNotFoundException {
+        String json = Data.getInstance().toJson().toString().replace("\\", "");
+        Log.d("Data", json);
+        Writer.writeToFile(Data.getInstance().toJson().toString().replace("\\", ""), "data.txt");
+
+
+    }
+
     public void addTrainingProfile(TrainingProfile trainingProfile) throws IllegalArgumentException{
         if(this.exists(trainingProfile)) {
             throw new IllegalArgumentException("Same title as already existing profile");
         } else {
             this.data.add(trainingProfile);
+            try {
+                Data.saveData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public boolean exists(TrainingProfile trainingProfile) {
+    private boolean exists(TrainingProfile trainingProfile) {
         boolean exists;
         try {
             this.getTrainingProfileIndex(trainingProfile.getTitle());
@@ -39,17 +61,31 @@ public class Data implements Serializable {
 
     public void removeTrainingProfile(int index) {
         this.data.remove(index);
+        try {
+            Data.saveData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void removeTrainingProfile(String title) {
         this.data.remove(this.getTrainingProfileIndex(title));
+        try {
+            Data.saveData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public TrainingProfile getTrainingProfile(int index) {
+    private TrainingProfile getTrainingProfile(int index) {
         return this.data.get(index);
     }
 
-    public int getTrainingProfileIndex(String title) throws Resources.NotFoundException{
+    private int getTrainingProfileIndex(String title) throws Resources.NotFoundException{
         boolean found = false;
         int size = this.getData().size();
         int i = 0;
@@ -90,5 +126,17 @@ public class Data implements Serializable {
 
     private Object readResolve() {
         return INSTANCE;
+    }
+
+    private JSONObject toJson() throws JSONException {
+        JSONObject jo = new JSONObject();
+        JSONArray data_json = new JSONArray();
+        for(TrainingProfile t : data) {
+            data_json.put(t.toJson());
+        }
+
+        jo.put("trainingProfiles", data_json);
+
+        return jo;
     }
 }

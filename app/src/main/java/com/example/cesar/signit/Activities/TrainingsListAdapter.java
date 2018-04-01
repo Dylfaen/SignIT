@@ -81,6 +81,7 @@ public class TrainingsListAdapter extends RecyclerView.Adapter<TrainingsListAdap
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TrainingsListAdapter.this.activity, TrainingActivity.class);
+                intent.putExtra("profileId", position);
                 TrainingsListAdapter.this.activity.startActivity(intent);
             }
         });

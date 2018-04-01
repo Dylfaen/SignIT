@@ -1,5 +1,9 @@
 package com.example.cesar.signit.Model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -36,5 +40,27 @@ public class TrainingProfile {
         this.signatures = signatures;
     }
 
+    @Override
+    public String toString() {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray signatures_json = new JSONArray(signatures);
+        try {
+            jsonObject.put("title", title)
+            .put("signatures", signatures_json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return signatures_json.toString();
+    }
 
+    public JSONObject toJson() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray signatures_json = new JSONArray();
+        for(Signature signature : signatures) {
+            signatures_json.put(signature.toJson());
+        }
+        jsonObject.put("signatures", signatures_json);
+        jsonObject.put("title", title);
+        return jsonObject;
+    }
 }
